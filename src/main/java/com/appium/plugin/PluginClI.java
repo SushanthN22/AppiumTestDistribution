@@ -76,10 +76,6 @@ public class PluginClI {
                        .getCloud().get("cloudName").textValue();
     }
 
-    public String getCloudUrl() {
-        return PluginClI.getInstance().getPlugin().getDeviceFarm()
-                .getCloud().get("url").textValue();
-    }
 
     private static PluginClI instance;
 

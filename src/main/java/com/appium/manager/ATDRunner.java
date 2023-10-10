@@ -34,10 +34,10 @@ public class ATDRunner {
     private static String cloudName ;
 
     public ATDRunner() throws Exception {
+        cloudName = "devicefarm";
         capabilities = Capabilities.getInstance();
         writeServiceConfig();
         AppiumServerManager appiumServerManager = new AppiumServerManager();
-        cloudName = PluginClI.getInstance().getCloudName();
         if (!cloudName.contains("devicefarm")) {
             appiumServerManager.startAppiumServer("127.0.0.1"); //Needs to be removed
         }
