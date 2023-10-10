@@ -45,10 +45,12 @@ public class AppiumServerManager {
     }
 
     public String getRemoteWDHubIP() {
-        if(ATDRunner.getCloudName().contains("devicefarm"))
+        if (ATDRunner.getCloudName().contains("devicefarm")) {
+            LOGGER.info("Executing on device farm");
             return PluginClI.getInstance().getCloudUrl().toString();
-        else
+        } else {
             return getAppiumUrl().toString();
+        }
     }
 
     public void startAppiumServer(String host) throws Exception {

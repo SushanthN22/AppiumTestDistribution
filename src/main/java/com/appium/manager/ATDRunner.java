@@ -38,8 +38,9 @@ public class ATDRunner {
         writeServiceConfig();
         AppiumServerManager appiumServerManager = new AppiumServerManager();
         cloudName = PluginClI.getInstance().getCloudName();
-        if(!cloudName.contains("devicefarm"))
+        if (!cloudName.contains("devicefarm")) {
             appiumServerManager.startAppiumServer("127.0.0.1"); //Needs to be removed
+        }
         List<Device> devices = Devices.getConnectedDevices();
         ATDExecutor = new ATDExecutor(devices);
         createOutputDirectoryIfNotExist();
@@ -156,7 +157,7 @@ public class ATDRunner {
         }
     }
 
-    public static String getCloudName(){
+    public static String getCloudName() {
         return cloudName;
     }
 
