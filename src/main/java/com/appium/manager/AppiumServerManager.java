@@ -2,6 +2,7 @@ package com.appium.manager;
 
 import com.appium.filelocations.FileLocations;
 import com.appium.capabilities.Capabilities;
+import com.appium.plugin.PluginClI;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -44,7 +45,10 @@ public class AppiumServerManager {
     }
 
     public String getRemoteWDHubIP() {
-        return getAppiumUrl().toString();
+        if(ATDRunner.getCloudName().contains("devicefarm"))
+            return PluginClI.getInstance().getCloudUrl().toString();
+        else
+            return getAppiumUrl().toString();
     }
 
     public void startAppiumServer(String host) throws Exception {
@@ -88,6 +92,10 @@ public class AppiumServerManager {
             devices.addAll(deviceList);
         }
     }*/
+
+    public void startAppiumServer() throws Exception {
+        LOGGER.info(LOGGER.getName() + "Starting Appium Server on DeviceFarm");
+    }
 
     public int getAvailablePort(String hostMachine) throws IOException {
         ServerSocket socket = new ServerSocket(0);

@@ -5,6 +5,7 @@ import com.appium.device.Device;
 import com.appium.device.Devices;
 import com.appium.executor.ATDExecutor;
 import com.appium.filelocations.FileLocations;
+import com.appium.plugin.PluginClI;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
@@ -30,13 +31,15 @@ public class ATDRunner {
     private final ATDExecutor ATDExecutor;
     private final Capabilities capabilities;
     private static final Logger LOGGER = Logger.getLogger(ATDRunner.class.getName());
-
+    private static String cloudName ;
 
     public ATDRunner() throws Exception {
         capabilities = Capabilities.getInstance();
         writeServiceConfig();
         AppiumServerManager appiumServerManager = new AppiumServerManager();
-        appiumServerManager.startAppiumServer("127.0.0.1"); //Needs to be removed
+        cloudName = PluginClI.getInstance().getCloudName();
+        if(!cloudName.contains("devicefarm"))
+            appiumServerManager.startAppiumServer("127.0.0.1"); //Needs to be removed
         List<Device> devices = Devices.getConnectedDevices();
         ATDExecutor = new ATDExecutor(devices);
         createOutputDirectoryIfNotExist();
@@ -151,6 +154,10 @@ public class ATDRunner {
         if (!platformDirectory.exists()) {
             platformDirectory.mkdirs();
         }
+    }
+
+    public static String getCloudName(){
+        return cloudName;
     }
 
 }
