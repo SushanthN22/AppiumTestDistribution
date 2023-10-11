@@ -1,9 +1,12 @@
 package com.appium.plugin;
 
+import com.appium.capabilities.Capabilities;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -54,6 +57,7 @@ public class PluginClI {
         public int revision;
         public long created;
         public int version;
+        public long updated;
     }
 
     public static class Plugin {
@@ -74,6 +78,14 @@ public class PluginClI {
     public String getCloudName() {
         return PluginClI.getInstance().getPlugin().getDeviceFarm()
                        .getCloud().get("cloudName").textValue();
+    }
+
+
+    public static String getCloudNameFromCaps(Capabilities capabilities) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(capabilities.getCapabilities().get("serverConfig").toString());
+        return jsonNode.path("server").path("plugin").path("device-farm").path("cloud").path("cloudName").asText();
+
     }
 
 

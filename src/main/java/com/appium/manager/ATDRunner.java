@@ -34,8 +34,8 @@ public class ATDRunner {
     private static String cloudName ;
 
     public ATDRunner() throws Exception {
-        cloudName = "devicefarm";
         capabilities = Capabilities.getInstance();
+        cloudName = PluginClI.getCloudNameFromCaps(capabilities);
         writeServiceConfig();
         AppiumServerManager appiumServerManager = new AppiumServerManager();
         if (!cloudName.contains("devicefarm")) {
