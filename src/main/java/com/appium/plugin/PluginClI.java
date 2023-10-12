@@ -98,7 +98,7 @@ public class PluginClI {
         if (jsonNode.isArray()) {
             for (JsonNode element : jsonNode) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("udid", element.get("value").asText());
+                map.put("udid", element.get("udid").asText());
                 deviceData.add(map);
             }
         }
