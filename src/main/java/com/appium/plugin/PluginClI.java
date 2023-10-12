@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -97,7 +98,7 @@ public class PluginClI {
         if (jsonNode.isArray()) {
             for (JsonNode element : jsonNode) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put(element.get("udid").asText(), element.get("value").asText());
+                map.put("udid", element.get("value").asText());
                 deviceData.add(map);
             }
         }
