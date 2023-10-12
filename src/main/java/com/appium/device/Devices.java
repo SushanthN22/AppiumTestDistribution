@@ -1,6 +1,5 @@
 package com.appium.device;
 
-import com.appium.capabilities.Capabilities;
 import com.appium.manager.ATDRunner;
 import com.appium.manager.AppiumServerManager;
 import com.appium.plugin.PluginClI;
@@ -44,7 +43,11 @@ public class Devices {
 
         for(HashMap<String, String> deviceData : PluginClI.getDeviceListFromCaps()) {
 
-            connectedDevices.removeIf(device -> deviceData.get("udid")!=device.getUdid());
+            for (Device device: connectedDevices) {
+                if(!device.getUdid().equalsIgnoreCase(deviceData.get("udid")))
+                    connectedDevices.remove(device);
+            }
+            //connectedDevices.removeIf(device -> deviceData.get("udid")!=device.getUdid());
         }
 
         return connectedDevices;
