@@ -41,16 +41,16 @@ public class Devices {
 
     public static List<Device> fetchDevicesFromList(List<Device> connectedDevices) throws JsonProcessingException {
 
+        List<Device> deviceList = new ArrayList<>();
         for(HashMap<String, String> deviceData : PluginClI.getDeviceListFromCaps()) {
-
             for (Device device: connectedDevices) {
-                if(!device.getUdid().equalsIgnoreCase(deviceData.get("udid")))
-                    connectedDevices.remove(device);
+                if(device.getUdid().equalsIgnoreCase(deviceData.get("udid")))
+                    deviceList.add(device);
             }
             //connectedDevices.removeIf(device -> deviceData.get("udid")!=device.getUdid());
         }
 
-        return connectedDevices;
+        return deviceList;
     }
 
 }
