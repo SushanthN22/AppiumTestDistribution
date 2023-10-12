@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import java.util.ArrayList;
+import java.util.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
@@ -86,6 +86,22 @@ public class PluginClI {
         JsonNode jsonNode = objectMapper.readTree(capabilities.getCapabilities().get("serverConfig").toString());
         return jsonNode.path("server").path("plugin").path("device-farm").path("cloud").path("cloudName").asText();
 
+    }
+
+    public static List<HashMap<String, String>> getDeviceListFromCaps() throws JsonProcessingException {
+        List<HashMap<String, String>> deviceData = new ArrayList<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(Capabilities.getInstance().getCapabilities().get("serverConfig").toString());
+        jsonNode = jsonNode.path("server").path("plugin").path("device-farm").path("cloud").path("devices");
+
+        if (jsonNode.isArray()) {
+            for (JsonNode element : jsonNode) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put(element.get("udid").asText(), element.get("value").asText());
+                deviceData.add(map);
+            }
+        }
+        return deviceData;
     }
 
 

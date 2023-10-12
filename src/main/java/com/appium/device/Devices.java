@@ -1,12 +1,17 @@
 package com.appium.device;
 
+import com.appium.capabilities.Capabilities;
+import com.appium.manager.ATDRunner;
 import com.appium.manager.AppiumServerManager;
+import com.appium.plugin.PluginClI;
 import com.appium.utils.Api;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class Devices {
@@ -27,6 +32,21 @@ public class Devices {
                     + "://" + url.getHost() + ":" + url.getPort() + "/device-farm/api/devices");
             instance =  Arrays.asList(new ObjectMapper().readValue(response, Device[].class));
         }
+        if(ATDRunner.getCloudName().contains("devicefarm"))
+            instance = fetchDevicesFromList(instance);
+
         return instance;
     }
+
+
+    public static List<Device> fetchDevicesFromList(List<Device> connectedDevices) throws JsonProcessingException {
+
+        for(HashMap<String, String> deviceData : PluginClI.getDeviceListFromCaps()){
+
+            connectedDevices.removeIf(device -> deviceData.get("udid")!=device.getUdid());
+        }
+
+        return connectedDevices;
+    }
+
 }
