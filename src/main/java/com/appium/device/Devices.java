@@ -31,7 +31,7 @@ public class Devices {
             URL url = new URL(remoteWDHubIP);
             String response = new Api().getResponse(url.getProtocol()
                     + "://" + url.getHost() + ":" + url.getPort() + "/device-farm/api/devices");
-            instance =  Arrays.asList(new ObjectMapper().readValue(response, Device[].class));
+            instance = new ArrayList<>(Arrays.asList(new ObjectMapper().readValue(response, Device[].class)));
         }
         if(ATDRunner.getCloudName().contains("devicefarm"))
             instance = fetchDevicesFromList(instance);
@@ -42,15 +42,12 @@ public class Devices {
 
     public static List<Device> fetchDevicesFromList(List<Device> connectedDevices) throws JsonProcessingException {
 
-        List<Device> deviceArrayList = new ArrayList<>(connectedDevices);
-
-
-        for(HashMap<String, String> deviceData : PluginClI.getDeviceListFromCaps()){
+        for(HashMap<String, String> deviceData : PluginClI.getDeviceListFromCaps()) {
 
             connectedDevices.removeIf(device -> deviceData.get("udid")!=device.getUdid());
         }
 
-        return deviceArrayList;
+        return connectedDevices;
     }
 
 }
