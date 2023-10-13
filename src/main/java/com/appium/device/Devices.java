@@ -31,9 +31,9 @@ public class Devices {
             String response = new Api().getResponse(url.getProtocol()
                     + "://" + url.getHost() + ":" + url.getPort() + "/device-farm/api/devices");
             instance = new ArrayList<>(Arrays.asList(new ObjectMapper().readValue(response, Device[].class)));
+            if(ATDRunner.getCloudName().contains("devicefarm"))
+                instance = fetchDevicesFromList(instance);
         }
-        if(ATDRunner.getCloudName().contains("devicefarm"))
-            instance = fetchDevicesFromList(instance);
 
         return instance;
     }

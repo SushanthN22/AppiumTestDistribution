@@ -81,6 +81,11 @@ public class PluginClI {
                        .getCloud().get("cloudName").textValue();
     }
 
+    public static String getCloudUrl() {
+        return PluginClI.getInstance().getPlugin().getDeviceFarm()
+                .getCloud().get("url").textValue();
+    }
+
 
     public static String getCloudNameFromCaps(Capabilities capabilities) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();

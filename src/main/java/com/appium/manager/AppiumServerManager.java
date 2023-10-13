@@ -47,7 +47,7 @@ public class AppiumServerManager {
     public String getRemoteWDHubIP() {
         if (ATDRunner.getCloudName().contains("devicefarm")) {
             LOGGER.info("Executing on device farm");
-            return "http://devicelab4.games24x7.com:4723";
+            return PluginClI.getCloudUrl();
         } else {
             return getAppiumUrl().toString();
         }
